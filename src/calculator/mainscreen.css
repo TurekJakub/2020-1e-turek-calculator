@@ -1,0 +1,15 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+ 
+}
+.button
+{
+    -fx-pref-height: 30px;
+    -fx-pref-width: 200px;
+    
+}
+.AnchorPane
+{-fx-alignment: center ;}
