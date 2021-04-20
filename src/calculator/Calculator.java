@@ -18,8 +18,7 @@ import javafx.scene.control.TextField;
  */
 public class Calculator {
 
-  //  private StringBuffer buffer = new StringBuffer();
-   
+    //  private StringBuffer buffer = new StringBuffer();
     private double sum(String number, String number1) {
         return Double.valueOf(number) + Double.valueOf(number1);
     }
@@ -62,12 +61,9 @@ public class Calculator {
 
             }
         }
-        if(Double.valueOf(inputList.get(0)) - Math.floor(Double.valueOf(inputList.get(0)))==0)
-        {   inputList.re
-            return Double.valueOf(ab);
-        }
-        else
-        {  return Double.valueOf(inputList.get(0));  }
+        
+            
+       
     }
 
     private int lessIndex(int number, int number1) {
@@ -109,8 +105,11 @@ public class Calculator {
     }
 
     public String backspace(String string) {
-     
-        return string.substring(0, string.length() -1);
+        if (string.length() != 0) {
+            return string.substring(0, string.length() - 1);
+        } else {
+            return string;
+        }
 
     }
 }

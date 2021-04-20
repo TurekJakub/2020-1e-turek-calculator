@@ -5,3 +5,9 @@
 .mainFxmlClass {
 
 }
+.textField
+{
+    
+  -fx-display-caret: false;  
+    
+}

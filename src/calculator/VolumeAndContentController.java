@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -51,9 +50,10 @@ public class VolumeAndContentController implements Initializable {
     @FXML
     Label showResult1;
     @FXML
+    Volume volume = new Volume();
+
     public void clicNumber(ActionEvent a) {
         Button b = (Button) a.getSource();
-        b.setFocusTraversable(false);
         if (aTex.isFocused()) {
             aTex.setText(aTex.getText() + b.getText());
         } else if (vTex.isFocused()) {
@@ -92,6 +92,9 @@ public class VolumeAndContentController implements Initializable {
             case "Jehlan":
                 setValue("a:", "v:", "b:", "V:", "S:");
                 break;
+            case "Koule":
+                setValue("r:", null, null, "V:", "S:");
+                break;
 
         }
     }
@@ -99,6 +102,20 @@ public class VolumeAndContentController implements Initializable {
     @FXML
     public void hitEnter() {
         String object = String.valueOf(oComb.getSelectionModel().getSelectedItem());
+        double a =0;
+        double b =0;
+        double v =0;       
+        
+        if (!"".equals(aTex.getText())) {
+             a = Double.valueOf(aTex.getText());
+        }
+        if (!"".equals(bTex.getText())) {
+            b = Double.valueOf(bTex.getText());
+        }
+        if (!"".equals(vTex.getText())) {
+            v = Double.valueOf(vTex.getText());
+        }
+
         switch (object) {
             case "Kruh":
                 //setResult(0, 0)
@@ -113,17 +130,23 @@ public class VolumeAndContentController implements Initializable {
                 setValue("a:", "v:", null, "O:", "S:");
                 break;
             case "Válec":
-                setValue("r:", "v:", null, "V:", "S:");
+                setResult(volume.cylinderSurface(a, v), 0);
                 break;
             case "Kvádr":
-                setValue("a:", "b:", "c:", "V:", "S:");
+                setResult(volume.blockVolume(a, b, v), 0);
                 break;
             case "Krychle":
-                setValue("a:", null, null, "V:", "S:");
+                setResult(volume.cubeVolume(a), 0);
                 break;
             case "Jehlan":
-                setValue("b:", "v:", "a:", "V:", "S:");
+                setResult(volume.pyramidVolume(a, b, v), 0);
                 break;
+            case "Koule":
+                setResult(volume.ballVolume(a), 0);
+                break;
+            default:
+                showResult.setText("Je nutné vybrat těleso");
+
         }
 
     }
@@ -165,7 +188,6 @@ public class VolumeAndContentController implements Initializable {
         }
 
     }
-    
 
     private void setResult(double result, double result1) {
         showResult.setText(String.valueOf(result));
