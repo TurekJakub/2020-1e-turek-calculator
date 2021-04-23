@@ -27,9 +27,8 @@ public class CalculatorMain extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-        Scene scene = new Scene(root);        
+        Scene scene = new Scene(root);
         primaryStage.setTitle("Kalkulátor");
-        primaryStage.getIcons().add(new Image("file:icon.png"));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

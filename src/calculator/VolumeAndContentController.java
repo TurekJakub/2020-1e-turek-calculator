@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -51,6 +53,8 @@ public class VolumeAndContentController implements Initializable {
     Label showResult1;
     @FXML
     Volume volume = new Volume();
+    Surface surface = new Surface();
+    Perimeter perimeter = new Perimeter();
 
     public void clicNumber(ActionEvent a) {
         Button b = (Button) a.getSource();
@@ -102,47 +106,55 @@ public class VolumeAndContentController implements Initializable {
     @FXML
     public void hitEnter() {
         String object = String.valueOf(oComb.getSelectionModel().getSelectedItem());
-        double a =0;
-        double b =0;
-        double v =0;       
-        
-        if (!"".equals(aTex.getText())) {
-             a = Double.valueOf(aTex.getText());
-        }
-        if (!"".equals(bTex.getText())) {
-            b = Double.valueOf(bTex.getText());
-        }
-        if (!"".equals(vTex.getText())) {
-            v = Double.valueOf(vTex.getText());
+        double a = 0;
+        double b = 0;
+        double v = 0;
+        try {
+            if (!"".equals(aTex.getText())) {
+                a = Double.valueOf(aTex.getText());
+            }
+            if (!"".equals(bTex.getText())) {
+                b = Double.valueOf(bTex.getText());
+            }
+            if (!"".equals(vTex.getText())) {
+                v = Double.valueOf(vTex.getText());
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Chyba!");
+            alert.setHeaderText("Chybný vstup.");
+            alert.setContentText("Zadávejte pouze čísla.");
+
+            alert.showAndWait();
         }
 
         switch (object) {
             case "Kruh":
-                //setResult(0, 0)
+                setResult(surface.roundSurface(v), perimeter.roundPerimeter(v));
                 break;
             case "Obdelník":
-                setValue("a:", "b:", null, "O:", "S:");
+                setResult(surface.rectangleSurface(a, b), perimeter.rectangelPerimetr(a, b));
                 break;
             case "Čtverec":
-                setValue("a:", null, null, "O:", "S:");
+                setResult(surface.squerContent(a), perimeter.squerPerimeter(a));
                 break;
             case "Trojúhelník":
-                setValue("a:", "v:", null, "O:", "S:");
+                setResult(surface.triangleSurface(a, v), perimeter.triangelPerimeter(a, b, v));
                 break;
             case "Válec":
-                setResult(volume.cylinderSurface(a, v), 0);
+                setResult(volume.cylinderVolume(v, a), surface.cylinderSurface(a, v));
                 break;
             case "Kvádr":
-                setResult(volume.blockVolume(a, b, v), 0);
+                setResult(volume.blockVolume(a, b, v), surface.blockSurface(a, b, v));
                 break;
             case "Krychle":
-                setResult(volume.cubeVolume(a), 0);
+                setResult(volume.cubeVolume(a), surface.cubeSurface(a));
                 break;
             case "Jehlan":
                 setResult(volume.pyramidVolume(a, b, v), 0);
                 break;
             case "Koule":
-                setResult(volume.ballVolume(a), 0);
+                //  setResult(volume.ballVolume(a), surface.ballSurface(a));
                 break;
             default:
                 showResult.setText("Je nutné vybrat těleso");
@@ -190,8 +202,9 @@ public class VolumeAndContentController implements Initializable {
     }
 
     private void setResult(double result, double result1) {
-        showResult.setText(String.valueOf(result));
-        showResult1.setText(String.valueOf(result1));
+        String units = String.valueOf(uComb.getSelectionModel().getSelectedItem());
+        showResult.setText(String.valueOf(result) + units);
+        showResult1.setText(String.valueOf(result1) + units);
 
     }
 }

@@ -5,6 +5,8 @@
  */
 package calculator;
 
+import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -35,9 +37,11 @@ public class Calculator {
         return Double.valueOf(number) / Double.valueOf(number1);
     }
 
-    public double calculate(String input) {
+    public String calculate(String input){
+        String validatInp = validateInput();
         List<String> inputList = new LinkedList<>(Arrays.asList(input.split(" ")));
         double result;
+        
         while (indexOfNextOperation(inputList) >= 0) {
             int index = indexOfNextOperation(inputList);
 
@@ -61,9 +65,13 @@ public class Calculator {
 
             }
         }
-        
-            
-       
+        if (Double.valueOf(inputList.get(0)) == Math.floor(Double.valueOf(inputList.get(0)))) {
+
+            return new DecimalFormat("#").format(Double.valueOf(inputList.get(0)));
+        } else {
+            return inputList.get(0);
+        }
+
     }
 
     private int lessIndex(int number, int number1) {
@@ -94,12 +102,24 @@ public class Calculator {
         return -1;
     }
 
-    public void printText(TextField textField, Button button) {
-        String[] s = new String[]{"+", "-", "x", "÷"};
-        if (Arrays.asList(s).contains(button.getText())) {
-            textField.setText(textField.getText() + " " + button.getText() + " ");
-        } else {
-            textField.setText(textField.getText() + button.getText());
+    private String validateInput(String input) {
+        List<Character> list = new LinkedList<Character>(Arrays.asList(input.toCharArray()));
+        List<Character> operations = new ArrayList<Character>();
+        operations.add('+');
+        operations.add('-');
+        operations.add('x');
+        operations.add('÷');
+
+        for (int i = 0; i <= list.size(); i++) {
+            if (operations.contains(list.get(i))) {
+                list.add(i - 1, ' ');
+                list.add(i + 1, ' ');
+            }
+            StringBuilder builder = new StringBuilder();
+            for (Character ch : list) {
+                builder.append(ch);
+            }
+            return builder.toString();
         }
 
     }
@@ -112,4 +132,6 @@ public class Calculator {
         }
 
     }
+
+    
 }
