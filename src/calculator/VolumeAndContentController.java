@@ -170,6 +170,7 @@ public class VolumeAndContentController implements Initializable {
         uComb.getItems().addAll("cm", "dm", "m", "in", "ft", "yd");
         uComb.getSelectionModel().select("-Vyberte jednotky-");
         oComb.getSelectionModel().select("-Vyberte obrazec-");
+        
 
     }
 

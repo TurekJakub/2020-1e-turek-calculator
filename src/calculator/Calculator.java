@@ -37,11 +37,11 @@ public class Calculator {
         return Double.valueOf(number) / Double.valueOf(number1);
     }
 
-    public String calculate(String input){
-        String validatInp = validateInput();
-        List<String> inputList = new LinkedList<>(Arrays.asList(input.split(" ")));
+    public String calculate(String input) {
+        String vali = validateInput(input);
+        List<String> inputList = new LinkedList<>(Arrays.asList(vali.split(" ")));
         double result;
-        
+
         while (indexOfNextOperation(inputList) >= 0) {
             int index = indexOfNextOperation(inputList);
 
@@ -103,24 +103,32 @@ public class Calculator {
     }
 
     private String validateInput(String input) {
-        List<Character> list = new LinkedList<Character>(Arrays.asList(input.toCharArray()));
+        input = input.replace(" ", "");
+        char[] inputArray = input.toCharArray();
+        List<Character> output = new ArrayList<Character>();
         List<Character> operations = new ArrayList<Character>();
         operations.add('+');
         operations.add('-');
         operations.add('x');
         operations.add('÷');
 
-        for (int i = 0; i <= list.size(); i++) {
-            if (operations.contains(list.get(i))) {
-                list.add(i - 1, ' ');
-                list.add(i + 1, ' ');
+        for (int i = 0; i < inputArray.length; i++) {
+            if (operations.contains(inputArray[i])) {
+                output.add(' ');
+                output.add(inputArray[i]);
+                output.add(' ');
             }
-            StringBuilder builder = new StringBuilder();
-            for (Character ch : list) {
-                builder.append(ch);
+            else
+            {
+                 output.add(inputArray[i]);
             }
-            return builder.toString();
+
         }
+        StringBuilder builder = new StringBuilder();
+        for (Character ch : output) {
+            builder.append(ch);
+        }
+        return builder.toString();
 
     }
 
@@ -132,6 +140,8 @@ public class Calculator {
         }
 
     }
-
-    
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.validateInput("1 +2"));
+    }
 }
