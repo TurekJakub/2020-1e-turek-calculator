@@ -28,9 +28,9 @@ public class Conventor {
 
         int exp = unitsSI.indexOf(from) - unitsSI.indexOf(to);
         if (value * Math.pow(10, exp) - (int) (value * Math.pow(10, exp)) == 0) {
-            return String.valueOf((int) (value * Math.pow(10, exp))) ;
+            return String.valueOf((int) (value * Math.pow(10, exp)));
         } else {
-            return String.valueOf(value * Math.pow(10, exp)) ;
+            return String.valueOf(value * Math.pow(10, exp));
         }
     }
 
@@ -48,17 +48,48 @@ public class Conventor {
         if (unitsSI.contains(from)) {
 
             return convertInImp("in", to, Double.valueOf(convertInSI(from, "cm", value)) / 2.54);
-        }
-        else{
+        } else {
 
             return convertInSI("cm", to, Double.valueOf(convertInImp(from, "in", value)) * 2.54);
         }
+    }
+
+    public String convertFlatInSI(String from, String to, double value) {
+        from = removeExp(from);
+        to = removeExp(to);
+        return convertInSI(from, to, Double.valueOf(convertInSI(from, to, value)));
+
+    }
+
+    public String convertFlatInImp(String from, String to, double value) {
+        from = removeExp(from);
+        to = removeExp(to);
+        return convertInImp(from, to, Double.valueOf(convertInImp(from, to, value)));
+
+    }
+    public String convertFlatFromSIToImp(String from, String to, double value) {
+        if (unitsSI.contains(removeExp(from))) {
+
+            return convertFlatInImp("in2", to, Double.valueOf(convertFlatInSI(from, "cm2", value)) / 6.4516);
+        } else {
+
+            return convertFlatInSI("cm2", to, Double.valueOf(convertFlatInImp(from, "in2", value)) * 6.4516);
+        }
+    }
+
+    private String removeExp(String string) {
+        return string = string.substring(0, string.length() - 1);
+
     }
 
     public static void main(String[] args) {
         Conventor c = new Conventor();
         System.out.println(c.convertInSI("mm", "cm", 10));
         System.out.println(c.convertInImp("in", "ft", 6));
-         System.out.println(c.convertFromSIToImp("in", "cm", 2));
+        System.out.println(c.convertFromSIToImp("in", "mm", 2));
+        System.out.println(c.convertFlatInSI("cmk", "dmk", 10));
+        System.out.println(c.convertFlatInImp("ink", "ftk", 144));
+         System.out.println(c.convertFlatFromSIToImp("m2", "ft2", 20));
+
     }
 }
