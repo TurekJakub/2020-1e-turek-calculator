@@ -28,7 +28,7 @@ public class CalculatorMain extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Kalkulátor");
+        primaryStage.setTitle("Kalkulátor");       
         primaryStage.setScene(scene);
         primaryStage.show();
     }
