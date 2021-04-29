@@ -1,10 +1,14 @@
+package calculator;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package calculator;
 
+
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,7 +17,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -31,7 +37,10 @@ public class CoventorController implements Initializable {
     TextField fromTex;
     @FXML
     Label toLabel;
+    @FXML
+    MenuBar menu;
     private Conventor conventor = new Conventor();
+    private Screen screen = new Screen();
 
     @FXML
     public void clicNumPad(ActionEvent a) {
@@ -43,15 +52,14 @@ public class CoventorController implements Initializable {
     public void clicConvert() {
         String from = String.valueOf(fromUnit.getSelectionModel().getSelectedItem());
         String to = String.valueOf(toUnit.getSelectionModel().getSelectedItem());
-        toLabel.setText(conventor.convert("mm", "cm", Double.valueOf(fromTex.getText())));
+        toLabel.setText(conventor.convert(from, to, Double.valueOf(fromTex.getText())));
 
     }
 
     @FXML
     public void clicFlat() {
-        fromUnit.getSelectionModel().select("--Vyberte jednotky--");
-        toUnit.getSelectionModel().select("--Vyberte jednotky--");
-        fromUnit.getItems().remove(0, fromUnit.getItems().size());
+
+        resetCombo();
         String[] units = new String[]{"mm²", "cm²", "dm²", "m²", "km²", "in²",
             "ft²", "yd²", "mi²"};
         fromUnit.getItems().addAll(units);
@@ -59,11 +67,15 @@ public class CoventorController implements Initializable {
 
     }
 
+    private void resetCombo() {
+        fromUnit.getItems().remove(0, fromUnit.getItems().size());
+        toUnit.getItems().remove(0, toUnit.getItems().size());
+
+    }
+
     @FXML
     public void clicLenght() {
-        fromUnit.getItems().remove(0, fromUnit.getItems().size());
-        fromUnit.getSelectionModel().select("--Vyberte jednotky--");
-        toUnit.getSelectionModel().select("--Vyberte jednotky--");
+        resetCombo();
         String[] units = new String[]{"mm", "cm", "dm", "m", "km", "in", "ft",
             "yd", "mi"};
         fromUnit.getItems().addAll(units);
@@ -72,15 +84,22 @@ public class CoventorController implements Initializable {
     }
 
     @FXML
-    public void clicVolume() {
-        fromUnit.getItems().remove(0, fromUnit.getItems().size());
-        fromUnit.getSelectionModel().select("--Vyberte jednotky--");
-        toUnit.getSelectionModel().select("--Vyberte jednotky--");
+    public void clicVolumeCombo() {
+        resetCombo();
         String[] units = new String[]{"ml", "cl", "dl", "l", "hl",
             "čajové lžičky", "polévkové lžíce", "šálky", "pinty", "galony"};
         fromUnit.getItems().addAll(units);
         toUnit.getItems().addAll(units);
 
+    }
+
+    @FXML
+    public void clicCalculator() throws IOException {
+            screen.changeScene("Calculator.fxml", (Stage) fromTex.getScene().getWindow());
+    }
+    @FXML
+    public void clicVolume() throws IOException {
+            screen.changeScene("Volume.fxml", (Stage) fromTex.getScene().getWindow());
     }
 
     @Override

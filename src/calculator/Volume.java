@@ -5,6 +5,8 @@
  */
 package calculator;
 
+import calculator.Surface;
+
 /**
  *
  * @author jakub

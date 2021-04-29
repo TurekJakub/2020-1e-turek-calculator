@@ -5,6 +5,8 @@
  */
 package calculator;
 
+import calculator.Perimeter;
+
 /**
  *
  * @author jakub

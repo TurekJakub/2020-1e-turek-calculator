@@ -5,6 +5,8 @@
  */
 package calculator;
 
+import calculator.Calculator;
+import calculator.Calculator;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -31,6 +33,11 @@ public class CalculatorController implements Initializable {
     public void clicNumber(ActionEvent a) {
         Button b = (Button) a.getSource();
         text1.setText(text1.getText() + b.getText());
+    }
+    @FXML
+    public void clear()
+    {
+        text1.setText("");
     }
 
     @FXML

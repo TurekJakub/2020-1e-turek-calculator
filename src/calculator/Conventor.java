@@ -17,20 +17,23 @@ public class Conventor {
 
     private List<String> unitsSI = new ArrayList<>();
     private List<String> unitsImperial = new ArrayList<>();
+    private List<String> unitsVolSI = new ArrayList<>();
+    private List<String> unitsVolImperial = new ArrayList<>();
 
     public Conventor() {
         Collections.addAll(unitsSI, "mm", "cm", "dm", "m", "km");
         Collections.addAll(unitsImperial, "in", "ft", "yd", "mi");
+        Collections.addAll(unitsVolSI, "ml", "cl", "dl", "l", "hl");
+        Collections.addAll(unitsVolImperial, "čajové lžičky", "polévkové lžíce",
+                "pinty", "galony");
     }
 
     private String convertInSI(String from, String to, double value) {
 
         int exp = unitsSI.indexOf(from) - unitsSI.indexOf(to);
-        if (value * Math.pow(10, exp) - (int) (value * Math.pow(10, exp)) == 0) {
-            return String.valueOf((int) (value * Math.pow(10, exp)));
-        } else {
-            return String.valueOf(value * Math.pow(10, exp));
-        }
+
+        return String.valueOf(value * Math.pow(10, exp));
+
     }
 
     private String convertInImp(String from, String to, double value) {
@@ -70,10 +73,37 @@ public class Conventor {
     private String convertFlatFromSIToImp(String from, String to, double value) {
         if (unitsSI.contains(removeExp(from))) {
 
-            return convertFlatInImp("in2", to, Double.valueOf(convertFlatInSI(from, "cm2", value)) / 6.4516);
+            return convertFlatInImp("in²", to, Double.valueOf(convertFlatInSI(from, "cm²", value)) / 6.4516);
         } else {
 
-            return convertFlatInSI("cm2", to, Double.valueOf(convertFlatInImp(from, "in2", value)) * 6.4516);
+            return convertFlatInSI("cm²", to, Double.valueOf(convertFlatInImp(from, "in²", value)) * 6.4516);
+        }
+    }
+
+    private String convertVolumeInSI(String from, String to, double value) {
+        int exp = unitsVolSI.indexOf(from) - unitsVolSI.indexOf(to);
+        return String.valueOf(value * Math.pow(10, exp));
+
+    }
+
+    private String convertVolumeInImp(String from, String to, double value) {
+        double[] chart = new double[]{4.92892, 1.478676, 2.365882, 0.473176, 0.03785412};
+        int index = unitsVolImperial.indexOf(from);
+        int index1 = unitsVolImperial.indexOf(to);
+        int exp = index - index1;
+        double result = value * chart[index] * Math.pow(10, exp) / chart[index1];
+        return String.valueOf(result);
+
+    }
+
+    private String convertVolumeFromSIToImp(String from, String to, double value) {
+        double d;
+        if (unitsSI.contains(removeExp(from))) {
+            d = Double.valueOf(convertVolumeInSI(from, "ml", value));
+            return convertVolumeInImp("čajové lžičky", to, d / 4.928622);
+        } else {
+            d = Double.valueOf(convertVolumeInImp(from, "čajové lžičky", value));
+            return convertVolumeInSI("ml", to, d * 4.928622);
         }
     }
 
@@ -83,35 +113,35 @@ public class Conventor {
     }
 
     public String convert(String from, String to, double value) {
-        if (from.contains("2")) {
+        String result;
+        if (from.contains("²")) {
             if (unitsSI.contains(removeExp(from)) && unitsSI.contains(removeExp(to))) {
-                return convertFlatInSI(from, to, value);
+                result = convertFlatInSI(from, to, value);
             } else if (unitsImperial.contains(removeExp(from)) && unitsImperial.contains(removeExp(to))) {
-                return convertFlatInImp(from, to, value);
+                result = convertFlatInImp(from, to, value);
             } else {
-                return convertFlatFromSIToImp(from, to, value);
+                result = convertFlatFromSIToImp(from, to, value);
             }
 
-        } else {
+        } else if (unitsSI.contains(from) || unitsImperial.contains(from)) {
             if (unitsSI.contains(from) && unitsSI.contains(to)) {
-                return convertInSI(from, to, value);
+                result = convertInSI(from, to, value);
             } else if (unitsImperial.contains(from) && unitsImperial.contains(to)) {
-                return convertInImp(from, to, value);
+                result = convertInImp(from, to, value);
             } else {
-                return convertFromSIToImp(from, to, value);
+                result = convertFromSIToImp(from, to, value);
             }
+        } else {
+            if (unitsVolSI.contains(from) && unitsVolSI.contains(to)) {
+                result = convertVolumeInSI(from, to, value);
+            } else if (unitsVolImperial.contains(from) && unitsVolImperial.contains(to)) {
+                result = convertVolumeInImp(from, to, value);
+            } else {
+                result = convertVolumeFromSIToImp(from, to, value);
+            }
+
         }
-
+        return Output.removeDecimal(result);
     }
 
-    public static void main(String[] args) {
-        Conventor c = new Conventor();
-        System.out.println(c.convertInSI("mm", "cm", 10));
-        System.out.println(c.convertInImp("in", "ft", 6));
-        System.out.println(c.convertFromSIToImp("in", "mm", 2));
-        System.out.println(c.convertFlatInSI("cmk", "dmk", 10));
-        System.out.println(c.convertFlatInImp("ink", "ftk", 144));
-        System.out.println(c.convert("in", "cm", 5));
-
-    }
 }

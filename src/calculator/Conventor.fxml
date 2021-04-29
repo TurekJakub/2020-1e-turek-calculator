@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@conventor.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calculator.CoventorController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="gridPane" stylesheets="@conventor.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="calculator.CoventorController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -30,17 +30,22 @@
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#clicLenght" text="Délka" />
                     <MenuItem mnemonicParsing="false" onAction="#clicFlat" text="Plocha" />
-                    <MenuItem mnemonicParsing="false" onAction="#clicVolume" text="Objem" />
+                    <MenuItem mnemonicParsing="false" onAction="#clicVolumeCombo" text="Objem" />
+                    <MenuItem mnemonicParsing="false" onAction="#clicCalculator" text="Kalkulačka" />
+                    <MenuItem mnemonicParsing="false" onAction="#clicVolume" text="Objem Obsah" />
                   </items>
                 </Menu>
                 
             </MenuBar>
-            <TextField fx:id="fromTex" />
+            <TextField fx:id="fromTex" styleClass="textField" />
             <ComboBox fx:id="fromUnit" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
-            <Label fx:id="toLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <Label fx:id="toLabel" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lable">
                <opaqueInsets>
-                  <Insets top="5.0" />
-               </opaqueInsets></Label>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="7.0" />
+               </padding></Label>
             <ComboBox fx:id="toUnit" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
          </children>
       </VBox>
@@ -66,8 +71,9 @@
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicNumPad" text="3" GridPane.columnIndex="2" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicNumPad" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicNumPad" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicConvert" text="Převď" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicConvert" text="Převď" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicNumPad" text="0" GridPane.rowIndex="3" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicNumPad" text="." GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

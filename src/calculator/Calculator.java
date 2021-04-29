@@ -5,14 +5,13 @@
  */
 package calculator;
 
-import java.lang.reflect.InvocationTargetException;
-import java.text.DecimalFormat;
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+
 
 /**
  *
@@ -65,12 +64,7 @@ public class Calculator {
 
             }
         }
-        if (Double.valueOf(inputList.get(0)) == Math.floor(Double.valueOf(inputList.get(0)))) {
-
-            return new DecimalFormat("#").format(Double.valueOf(inputList.get(0)));
-        } else {
-            return inputList.get(0);
-        }
+        return Output.removeDecimal(inputList.get(0));
 
     }
 
@@ -104,6 +98,7 @@ public class Calculator {
 
     private String validateInput(String input) {
         input = input.replace(" ", "");
+        input = input.replace(",", ".");
         char[] inputArray = input.toCharArray();
         List<Character> output = new ArrayList<Character>();
         List<Character> operations = new ArrayList<Character>();
@@ -140,8 +135,5 @@ public class Calculator {
         }
 
     }
-    public static void main(String[] args) {
-        Calculator c = new Calculator();
-        System.out.println(c.validateInput("1 +2"));
-    }
+    
 }

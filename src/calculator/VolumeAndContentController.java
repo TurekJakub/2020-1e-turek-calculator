@@ -1,10 +1,16 @@
+package calculator;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package calculator;
 
+
+import calculator.Output;
+import calculator.Perimeter;
+import calculator.Surface;
+import calculator.Volume;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -106,6 +112,7 @@ public class VolumeAndContentController implements Initializable {
     @FXML
     public void hitEnter() {
         String object = String.valueOf(oComb.getSelectionModel().getSelectedItem());
+
         double a = 0;
         double b = 0;
         double v = 0;
@@ -170,7 +177,6 @@ public class VolumeAndContentController implements Initializable {
         uComb.getItems().addAll("cm", "dm", "m", "in", "ft", "yd");
         uComb.getSelectionModel().select("-Vyberte jednotky-");
         oComb.getSelectionModel().select("-Vyberte obrazec-");
-        
 
     }
 
@@ -204,8 +210,10 @@ public class VolumeAndContentController implements Initializable {
 
     private void setResult(double result, double result1) {
         String units = String.valueOf(uComb.getSelectionModel().getSelectedItem());
-        showResult.setText(String.valueOf(result) + units);
-        showResult1.setText(String.valueOf(result1) + units);
+        String res = Output.removeDecimal(String.valueOf(result));
+        String res1 = Output.removeDecimal(String.valueOf(result1));
+        showResult.setText(res1 + " " + units);
+        showResult1.setText(res+ " " + units);
 
     }
 }

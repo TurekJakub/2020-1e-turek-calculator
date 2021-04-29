@@ -15,6 +15,23 @@
     -fx-padding: 2px;
     -fx-border-insets: 2px;
     -fx-background-insets: 2px;
-    
 
+
+}
+.gridPane
+{
+    -fx-background-color: lightblue;   
+
+}
+.textField{
+    -fx-font-size:10pt;
+    -fx-font-weight: bold;
+    -fx-text-fill:black; 
+}
+.lable
+{
+    -fx-background-color:white;   
+    -fx-font-size:10pt;
+    -fx-font-weight: bold;
+    -fx-text-fill:black; 
 }

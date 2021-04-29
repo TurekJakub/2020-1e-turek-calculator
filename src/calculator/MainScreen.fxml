@@ -18,7 +18,7 @@
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
          <image>
-            <Image url="@background.png" />
+            <Image url="@images/background.png" />
          </image></ImageView>
       <GridPane layoutX="-14.0" prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -37,7 +37,6 @@
             <Button fx:id="conventorBtn" mnemonicParsing="false" onAction="#hitConventorBtn" text="Převodník jednotek" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Button fx:id="volumeBtn" mnemonicParsing="false" onAction="#hitVolumeBtn" text="Objem obsah" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
             <Button fx:id="calculatorBtn" mnemonicParsing="false" onAction="#hitCalculatorBtn" text="Kalkulačka" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="helpBtn" maxWidth="-Infinity" mnemonicParsing="false" text="Nápověda" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
             <Label contentDisplay="CENTER" text="Kalkulačka" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font size="36.0" />
