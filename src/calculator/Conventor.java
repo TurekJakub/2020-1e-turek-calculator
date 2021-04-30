@@ -112,7 +112,14 @@ public class Conventor {
 
     }
 
-    public String convert(String from, String to, double value) {
+    public String convert(String from, String to, String in) {
+        in = in.replace(",", ".");
+        double value;
+        try{
+        value = Double.valueOf(in);}
+        catch(NumberFormatException e)
+        { throw e;
+        }
         String result;
         if (from.contains("²")) {
             if (unitsSI.contains(removeExp(from)) && unitsSI.contains(removeExp(to))) {

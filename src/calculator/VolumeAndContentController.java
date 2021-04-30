@@ -7,10 +7,8 @@ package calculator;
  */
 
 
-import calculator.Output;
-import calculator.Perimeter;
-import calculator.Surface;
-import calculator.Volume;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -22,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -34,33 +33,16 @@ public class VolumeAndContentController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    ComboBox oComb;
+    ComboBox oComb,uComb; 
     @FXML
-    ComboBox uComb;
+    TextField vTex,bTex,aTex,cTex;
     @FXML
-    TextField aTex;
-    @FXML
-    TextField vTex;
-    @FXML
-    TextField bTex;
-    @FXML
-    Label aLab;
-    @FXML
-    Label bLab;
-    @FXML
-    Label vLab;
-    @FXML
-    Label result;
-    @FXML
-    Label result1;
-    @FXML
-    Label showResult;
-    @FXML
-    Label showResult1;
-    @FXML
-    Volume volume = new Volume();
-    Surface surface = new Surface();
-    Perimeter perimeter = new Perimeter();
+    Label showResult,showResult1, result1,result, vLab,bLab,aLab,cLab;
+   
+   private Volume volume = new Volume();
+   private Surface surface = new Surface();
+   private Perimeter perimeter = new Perimeter();
+   private Screen screen = new Screen();
 
     public void clicNumber(ActionEvent a) {
         Button b = (Button) a.getSource();
@@ -71,6 +53,10 @@ public class VolumeAndContentController implements Initializable {
         } else if (bTex.isFocused()) {
             bTex.setText(bTex.getText() + b.getText());
         }
+         else if (cTex.isFocused()) {
+            cTex.setText(cTex.getText() + b.getText());
+        }
+
 
     }
 
@@ -79,31 +65,31 @@ public class VolumeAndContentController implements Initializable {
         String object = String.valueOf(oComb.getSelectionModel().getSelectedItem());
         switch (object) {
             case "Kruh":
-                setValue("r:", null, null, "O:", "S:");
+                setValue("r:", null,null, null, "O:", "S:");
                 break;
             case "Obdelník":
-                setValue("a:", "b:", null, "O:", "S:");
+                setValue("a:", "b:",null, null, "O:", "S:");
                 break;
             case "Čtverec":
-                setValue("a:", null, null, "O:", "S:");
+                setValue("a:", null,null, null, "O:", "S:");
                 break;
             case "Trojúhelník":
-                setValue("a:", "v:", null, "O:", "S:");
+                setValue("a:", "b:","v:","c:", "O:", "S:");
                 break;
             case "Válec":
-                setValue("r:", "v:", null, "V:", "S:");
+                setValue("r:", "v:",null, null, "V:", "S:");
                 break;
             case "Kvádr":
-                setValue("a:", "b:", "c:", "V:", "S:");
+                setValue("a:", "b:",null, "c:", "V:", "S:");
                 break;
             case "Krychle":
-                setValue("a:", null, null, "V:", "S:");
+                setValue("a:", null,null, null, "V:", "S:");
                 break;
             case "Jehlan":
-                setValue("a:", "v:", "b:", "V:", "S:");
+                setValue("a:","v:",null, null, "V:", "S:");
                 break;
             case "Koule":
-                setValue("r:", null, null, "V:", "S:");
+                setValue("r:", null, null,null, "V:", "S:");
                 break;
 
         }
@@ -116,6 +102,7 @@ public class VolumeAndContentController implements Initializable {
         double a = 0;
         double b = 0;
         double v = 0;
+        double c =0;
         try {
             if (!"".equals(aTex.getText())) {
                 a = Double.valueOf(aTex.getText());
@@ -126,18 +113,21 @@ public class VolumeAndContentController implements Initializable {
             if (!"".equals(vTex.getText())) {
                 v = Double.valueOf(vTex.getText());
             }
+             if (!"".equals(cTex.getText())) {
+                c = Double.valueOf(cTex.getText());
+            }
         } catch (NumberFormatException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Chyba!");
             alert.setHeaderText("Chybný vstup.");
             alert.setContentText("Zadávejte pouze čísla.");
-
+            
             alert.showAndWait();
         }
 
         switch (object) {
             case "Kruh":
-                setResult(surface.roundSurface(v), perimeter.roundPerimeter(v));
+                setResult(surface.roundSurface(a), perimeter.roundPerimeter(a));
                 break;
             case "Obdelník":
                 setResult(surface.rectangleSurface(a, b), perimeter.rectangelPerimetr(a, b));
@@ -146,22 +136,22 @@ public class VolumeAndContentController implements Initializable {
                 setResult(surface.squerContent(a), perimeter.squerPerimeter(a));
                 break;
             case "Trojúhelník":
-                setResult(surface.triangleSurface(a, v), perimeter.triangelPerimeter(a, b, v));
+                setResult(surface.triangleSurface(a, c),perimeter.triangelPerimeter(a, b, v));
                 break;
             case "Válec":
-                setResult(volume.cylinderVolume(v, a), surface.cylinderSurface(a, v));
+                setResult(volume.cylinderVolume(a,b), surface.cylinderSurface(a,b));
                 break;
             case "Kvádr":
-                setResult(volume.blockVolume(a, b, v), surface.blockSurface(a, b, v));
+                setResult(surface.blockSurface(a, b, v),volume.blockVolume(a, b, v));
                 break;
             case "Krychle":
-                setResult(volume.cubeVolume(a), surface.cubeSurface(a));
+                setResult(surface.cubeSurface(a),volume.cubeVolume(a));
                 break;
             case "Jehlan":
-                setResult(volume.pyramidVolume(a, b, v), 0);
+                setResult(volume.pyramidVolume(a,b), volume.pyramidVolume(a,b));
                 break;
             case "Koule":
-                //  setResult(volume.ballVolume(a), surface.ballSurface(a));
+                 setResult(volume.sphereVolume(a), surface.sphereSurface(a));
                 break;
             default:
                 showResult.setText("Je nutné vybrat těleso");
@@ -184,15 +174,18 @@ public class VolumeAndContentController implements Initializable {
         vTex.setVisible(false);
         bTex.setVisible(false);
         aTex.setVisible(false);
+        cTex.setVisible(false);
         vTex.setText("");
         bTex.setText("");
         aTex.setText("");
+        cTex.setText("");
     }
 
-    private void setValue(String a, String b, String v, String res, String res1) {
+    private void setValue(String a, String b, String c, String v, String res, String res1) {
         resetState();
         aLab.setText(a);
         bLab.setText(b);
+        cLab.setText(c);
         vLab.setText(v);
         result.setText(res);
         result1.setText(res1);
@@ -205,15 +198,41 @@ public class VolumeAndContentController implements Initializable {
         if (v != null) {
             vTex.setVisible(true);
         }
+         if (c != null) {
+            cTex.setVisible(true);
+        }
 
     }
 
     private void setResult(double result, double result1) {
         String units = String.valueOf(uComb.getSelectionModel().getSelectedItem());
+       if(!units.equals("-Vyberte jednotky-"))
+       {
+        String exp ="" ;
         String res = Output.removeDecimal(String.valueOf(result));
         String res1 = Output.removeDecimal(String.valueOf(result1));
-        showResult.setText(res1 + " " + units);
-        showResult1.setText(res+ " " + units);
+        if(this.result.getText().equals("V:"))
+            exp = "³";
+        showResult.setText(res1 + " " + units + exp);
+        showResult1.setText(res+ " " + units +"²");
+       }
+       else{
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Upozornění");
+            alert.setHeaderText("Nezadané jednoty");
+            alert.setContentText("Je nutné zadat jednotky.");
+             alert.showAndWait();      
+       }
 
     }
+      @FXML
+    public void clicConventor() throws IOException {
+            screen.changeScene("Conventor.fxml", (Stage) showResult.getScene().getWindow());
+    }
+      @FXML
+    public void clicCalculator() throws IOException {
+            screen.changeScene("Calculator.fxml", (Stage) showResult.getScene().getWindow());
+    }
+
+
 }

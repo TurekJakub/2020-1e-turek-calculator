@@ -5,15 +5,17 @@
  */
 package calculator;
 
-import calculator.Calculator;
-import calculator.Calculator;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -28,6 +30,7 @@ public class CalculatorController implements Initializable {
     private Calculator calculator = new Calculator();
     @FXML
     TextField text1;
+    private  Screen screen = new Screen();
 
     @FXML
     public void clicNumber(ActionEvent a) {
@@ -42,8 +45,26 @@ public class CalculatorController implements Initializable {
 
     @FXML
     public void clicEquel() {
+        try{
+            text1.setText(calculator.calculate(text1.getText()));}
+        catch(NumberFormatException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Chyba!");
+            alert.setHeaderText("Chybný vstup.");
+            alert.setContentText("Zadejte platný matematický výraz.");            
+            alert.showAndWait();
+        }
+        catch(IllegalArgumentException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Chyba!");
+            alert.setHeaderText("Chybný vstup.");
+            alert.setContentText(e.getMessage());            
+            alert.showAndWait();
         
-            text1.setText(calculator.calculate(text1.getText()));
+        
+        }
        
        
        
@@ -52,6 +73,15 @@ public class CalculatorController implements Initializable {
     public void clicBackspace() {
        text1.setText(calculator.backspace(text1.getText()));
     }
+     @FXML
+    public void clicVolume() throws IOException {
+            screen.changeScene("Volume.fxml", (Stage) text1.getScene().getWindow());
+    }
+     @FXML
+    public void clicConventor() throws IOException {
+            screen.changeScene("Conventor.fxml", (Stage) text1.getScene().getWindow());
+    }
+
 
 
     @Override

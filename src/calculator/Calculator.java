@@ -5,13 +5,10 @@
  */
 package calculator;
 
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
 
 /**
  *
@@ -33,6 +30,9 @@ public class Calculator {
     }
 
     private double quotient(String number, String number1) {
+        if(Double.valueOf(number1)==0)
+        { throw new IllegalArgumentException("Nulou nelze dělit");}
+        else
         return Double.valueOf(number) / Double.valueOf(number1);
     }
 
@@ -40,30 +40,31 @@ public class Calculator {
         String vali = validateInput(input);
         List<String> inputList = new LinkedList<>(Arrays.asList(vali.split(" ")));
         double result;
+       
+            while (indexOfNextOperation(inputList) >= 0) {
+                int index = indexOfNextOperation(inputList);
 
-        while (indexOfNextOperation(inputList) >= 0) {
-            int index = indexOfNextOperation(inputList);
+                switch (inputList.get(index)) {
+                    case "x":
+                        result = product(inputList.get(index - 1), inputList.get(index + 1));
+                        updateList(inputList, index, String.valueOf(result));
+                        break;
+                    case "÷":
+                        result = quotient(inputList.get(index - 1), inputList.get(index + 1));
+                        updateList(inputList, index, String.valueOf(result));
+                        break;
+                    case "+":
+                        result = sum(inputList.get(index - 1), inputList.get(index + 1));
+                        updateList(inputList, index, String.valueOf(result));
+                        break;
+                    case "-":
+                        result = difference(inputList.get(index - 1), inputList.get(index + 1));
+                        updateList(inputList, index, String.valueOf(result));
+                        break;
 
-            switch (inputList.get(index)) {
-                case "x":
-                    result = product(inputList.get(index - 1), inputList.get(index + 1));
-                    updateList(inputList, index, String.valueOf(result));
-                    break;
-                case "÷":
-                    result = quotient(inputList.get(index - 1), inputList.get(index + 1));
-                    updateList(inputList, index, String.valueOf(result));
-                    break;
-                case "+":
-                    result = sum(inputList.get(index - 1), inputList.get(index + 1));
-                    updateList(inputList, index, String.valueOf(result));
-                    break;
-                case "-":
-                    result = difference(inputList.get(index - 1), inputList.get(index + 1));
-                    updateList(inputList, index, String.valueOf(result));
-                    break;
-
+                }
             }
-        }
+       
         return Output.removeDecimal(inputList.get(0));
 
     }
@@ -112,10 +113,8 @@ public class Calculator {
                 output.add(' ');
                 output.add(inputArray[i]);
                 output.add(' ');
-            }
-            else
-            {
-                 output.add(inputArray[i]);
+            } else {
+                output.add(inputArray[i]);
             }
 
         }
@@ -135,5 +134,5 @@ public class Calculator {
         }
 
     }
-    
+
 }

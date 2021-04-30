@@ -5,7 +5,6 @@
  */
 package calculator;
 
-import calculator.Surface;
 
 /**
  *
@@ -22,8 +21,9 @@ public class Volume {
         return Math.pow(a, 3);
     }
 
-    public double globeVolume(double r) {
-        return 4 / 3 * Math.PI * Math.pow(r, 3);
+    public double sphereVolume(double r) {
+       
+      return (4*Math.PI*Math.pow(r, 3))/3;
     }
     
 
@@ -33,12 +33,12 @@ public class Volume {
         return surface.roundSurface(r)*v;
     
     }
-    public double pyramidVolume(double a, double b, double v)
+    public double pyramidVolume(double a, double v)
     {
-        return surface.rectangleSurface(a, b)*v*(1/3);
+        return surface.squerContent(a)*v*(1/3);
     
     }
-
+    
    
     
 

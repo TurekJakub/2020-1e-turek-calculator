@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -52,7 +53,16 @@ public class CoventorController implements Initializable {
     public void clicConvert() {
         String from = String.valueOf(fromUnit.getSelectionModel().getSelectedItem());
         String to = String.valueOf(toUnit.getSelectionModel().getSelectedItem());
-        toLabel.setText(conventor.convert(from, to, Double.valueOf(fromTex.getText())));
+        try{
+        toLabel.setText(conventor.convert(from, to, fromTex.getText()));}
+        catch(NumberFormatException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Chyba!");
+            alert.setHeaderText("Chybný vstup.");
+            alert.setContentText("Zadejte pouze čísla.");            
+            alert.showAndWait();
+        }
 
     }
 

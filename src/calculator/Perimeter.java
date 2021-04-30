@@ -26,4 +26,5 @@ public class Perimeter {
     public double triangelPerimeter(double a, double b, double c) {
         return a + b + c;
     }
+    
 }

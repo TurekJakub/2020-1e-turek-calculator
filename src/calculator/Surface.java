@@ -5,7 +5,7 @@
  */
 package calculator;
 
-import calculator.Perimeter;
+
 
 /**
  *
@@ -36,15 +36,20 @@ public class Surface {
     }
 
     public double blockSurface(double a, double b, double v) {
-        return 2 * a * b + 2 * a * v + 2 * b * v;
+        return (2 * a * b) + (2 * a * v) + (2 * b * v);
+    }
+       public double pyramidSurface(double a, double v) {
+           double s2 = (a*a)/4+v*v ;
+        return a*a + 4*triangleSurface(a, Math.sqrt(s2));
     }
 
-    public double cylinderSurface(double r, double v) {
-        return perimeter.roundPerimeter(r) * v;
+    public double cylinderSurface(double v, double r) {
+        
+        return  (perimeter.roundPerimeter(r) * v )+ 2 * roundSurface(r);
     }
 
-    public double ballSurface(double r) {
+    public double sphereSurface(double r) {
         return 4 * Math.PI * Math.pow(r, 2);
     }
-
+  
 }
